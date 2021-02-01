@@ -9,7 +9,7 @@ func main() {
 		log.Fatalln("Error creating channel")
 	}
 
-	StartHTTPServer("127.0.0.1", "8080")
 	go RoutineReadAudio("/home/alis/Music/Elektronomia - Magic.mp3", channelID.String())
+	StartHTTPServer("127.0.0.1", "8080")
 
 }
