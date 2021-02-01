@@ -9,3 +9,11 @@ var AudioFormats = map[string]string{
 // supported channel types.
 var ChannelTypes = map[string]uint8{
 	"FilesOnly": 1, "StreamOnly": 2, "Mirror": 3}
+
+// SocketServerName represents the "Server" header returned by
+// the server during icecast emulation in socket connections.
+const SocketServerName string = "unKast"
+
+// Version represents the version of this program in
+// a unique, hexadecimal format
+const Version = "0x01"
