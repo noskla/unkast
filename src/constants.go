@@ -2,10 +2,10 @@ package unkast
 
 // AudioFormats pseudo-constant declares the names of
 // supported audio formats.
-var AudioFormats = map[uint8]string{
-	1: "MPEG", 2: "FLAC", 3: "WAV"}
+var AudioFormats = map[string]uint8{
+	"MPEG": 1, "MP3": 1, "OGG": 2, "AAC": 3}
 
 // ChannelTypes pseudo-constant declares the names of
 // supported channel types.
-var ChannelTypes = map[uint8]string{
-	1: "audioOnly", 2: "streamOnly", 3: "mirror"}
+var ChannelTypes = map[string]uint8{
+	"AudioOnly": 1, "StreamOnly": 2, "Mirror": 3}
