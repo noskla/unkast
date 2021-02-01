@@ -20,19 +20,21 @@ func RoutineReadAudio(filePath string, channelID string) {
 	defer audioFile.Close()
 
 	reader := bufio.NewReader(audioFile)
-	moveBuffer := func(chunk []byte) {
+	moveBuffer := func() {
 		ActiveChannels[channelID].mainBuffer = append(
-			ActiveChannels[channelID].mainBuffer[4096:], chunk...)
+			ActiveChannels[channelID].mainBuffer[4096:],
+			ActiveChannels[channelID].temporaryInputBuffer...)
 	}
 
+	ActiveChannels[channelID].temporaryInputBuffer = make([]byte, 4096)
 	waitInterval := ActiveChannels[channelID].bitrateInterval
 	for {
-		_, err = reader.Read(ActiveChannels[channelID].temporaryInputBuffer)
+		_, err := reader.Read(ActiveChannels[channelID].temporaryInputBuffer)
 		switch err {
 		case io.EOF:
-			break
+			return
 		case nil:
-			moveBuffer(ActiveChannels[channelID].temporaryInputBuffer)
+			moveBuffer()
 		default:
 			HandleError(err, false)
 			return
