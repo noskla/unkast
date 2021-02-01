@@ -1,15 +1,20 @@
 package main
 
-import "log"
+import (
+	"math/rand"
+	"time"
+)
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 
-	channelID, ok := CreateAudioChannel(192, false, AudioFormats["MPEG"], ChannelTypes["FilesOnly"])
-	if !ok {
-		log.Fatalln("Error creating channel")
-	}
+	channelID, _ := CreateAudioChannel(192, false, AudioFormats["MPEG"], ChannelTypes["FilesOnly"])
+	//go RoutineReadAudio("/home/alis/Music/Beat Thee.mp3", channelID.String())
+	go PlayDirectory("/home/alis/Music/", channelID.String(), true, true)
 
-	go RoutineReadAudio("/home/alis/Music/Elektronomia - Magic.mp3", channelID.String())
-	StartHTTPServer("127.0.0.1", "8080")
+	channelID, _ = CreateAudioChannel(192, false, AudioFormats["MPEG"], ChannelTypes["StreamOnly"])
+
+	go SocketListen("0.0.0.0", "8081")
+	StartHTTPServer("0.0.0.0", "8080")
 
 }
