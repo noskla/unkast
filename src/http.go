@@ -19,6 +19,7 @@ func StartHTTPServer(address string, port string) {
 		WriteTimeout:      5 * time.Second,
 	}
 
+	http.HandleFunc("/listen", HTTPListenRoute)
 	log.Fatalln(httpServer.ListenAndServe())
 
 }
