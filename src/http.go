@@ -11,12 +11,11 @@ func StartHTTPServer(address string, port string) {
 
 	addr := address + ":" + port
 
-	log.Println("Launching web server at ", addr)
+	log.Println("Launching web server at", addr)
 	httpServer := &http.Server{
-		Addr:              addr,
-		ReadHeaderTimeout: 30 * time.Second,
-		ReadTimeout:       48 * time.Hour,
-		WriteTimeout:      5 * time.Second,
+		Addr:         addr,
+		ReadTimeout:  48 * time.Hour,
+		WriteTimeout: 20 * time.Second,
 	}
 
 	http.HandleFunc("/listen", HTTPListenRoute)
