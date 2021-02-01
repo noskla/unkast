@@ -49,6 +49,7 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Cache-Control", "no-cache")
 	w.Header().Add("Pragma", "no-cache")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(http.StatusOK)
 
 	for {
 		if _, err := w.Write(ch.mainBuffer[0:4096]); err != nil {
