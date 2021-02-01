@@ -15,7 +15,7 @@ func StartHTTPServer(address string, port string) {
 	httpServer := &http.Server{
 		Addr:         addr,
 		ReadTimeout:  48 * time.Hour,
-		WriteTimeout: 20 * time.Second,
+		WriteTimeout: 48 * time.Hour,
 	}
 
 	http.HandleFunc("/listen", HTTPListenRoute)
