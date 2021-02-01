@@ -51,7 +51,7 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
 	for {
-		if _, err := w.Write(ch.mainBuffer[:4096]); err != nil {
+		if _, err := w.Write(ch.mainBuffer[0:4096]); err != nil {
 			break
 		}
 		time.Sleep(ch.bitrateInterval)
