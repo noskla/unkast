@@ -15,7 +15,6 @@ import (
 // streams from supported streaming clients.
 type AudioChannel struct {
 	ID                   uuid.UUID
-	name                 string
 	temporaryInputBuffer []byte
 	mainBuffer           []byte
 	audioFormat          uint8
