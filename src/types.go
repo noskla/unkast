@@ -17,7 +17,7 @@ type AudioChannel struct {
 	ID                   uuid.UUID
 	temporaryInputBuffer []byte
 	mainBuffer           []byte
-	audioFormat          uint8
+	audioFormat          string
 	bitrate              uint
 	bitrateInterval      time.Duration
 	hidden               bool

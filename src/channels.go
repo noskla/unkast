@@ -18,7 +18,7 @@ var ActiveChannels = make(map[string]*AudioChannel)
 // map and either starts listening for streaming clients or starts broadcasting
 // audio files, then returns the UUID of the channel and if the channel creation
 // succeded.
-func CreateAudioChannel(bitrate uint, hidden bool, audioFormat uint8, channelType uint8) (uuid.UUID, bool) {
+func CreateAudioChannel(bitrate uint, hidden bool, audioFormat string, channelType uint8) (uuid.UUID, bool) {
 	var channel AudioChannel
 	var channelStatus AudioChannelStatus = AudioChannelStatus{}
 
