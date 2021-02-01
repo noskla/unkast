@@ -36,3 +36,13 @@ type AudioChannelStatus struct {
 	listeners         uint
 	currentState      string
 }
+
+// SocketClient represents a streaming client which is connected to the
+// server via sockets.
+type SocketClient struct {
+	IP             string
+	clientPort     string
+	connectedSince time.Time
+	userAgent      string
+	channel        string
+}
