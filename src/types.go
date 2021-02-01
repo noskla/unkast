@@ -1,4 +1,4 @@
-package unkast
+package main
 
 import (
 	"time"
