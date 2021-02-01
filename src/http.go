@@ -46,6 +46,11 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ch := ActiveChannels[requestedChannel]
+	w.Header().Add("Content-Type", ch.audioFormat)
+	w.Header().Add("Cache-Control", "no-cache")
+	w.Header().Add("Pragma", "no-cache")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
 	for {
 		if _, err := w.Write(ch.mainBuffer[:4096]); err != nil {
 			break
