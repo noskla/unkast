@@ -12,7 +12,7 @@ import (
 // It is being constantly read and written to by channel-assigned
 // goroutines to retrieve audio information or write the current
 // AudioChannelStatus.
-var ActiveChannels = make(map[string]AudioChannel)
+var ActiveChannels = make(map[string]*AudioChannel)
 
 // CreateAudioChannel initializes the channel, appends it to the ActiveChannels
 // map and either starts listening for streaming clients or starts broadcasting
@@ -48,7 +48,7 @@ func CreateAudioChannel(bitrate uint, hidden bool, audioFormat uint8, channelTyp
 		channelType:          channelType,
 		status:               channelStatus,
 	}
-	ActiveChannels[ID.String()] = channel
+	ActiveChannels[ID.String()] = &channel
 
 	// TODO: start goroutine
 
