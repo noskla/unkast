@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"log"
 	"net/http"
 	"time"
@@ -51,10 +52,15 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 
+	var lastChunk = make([]byte, 4096)
+	var currentChunk = make([]byte, 4096)
 	for {
-		if _, err := w.Write(ch.mainBuffer[0:4096]); err != nil {
+		currentChunk = ch.mainBuffer[0:4096]
+		if _, err := w.Write(currentChunk); err != nil ||
+			bytes.Compare(lastChunk, currentChunk) == 0 {
 			break
 		}
+		lastChunk = currentChunk
 		time.Sleep(ch.bitrateInterval)
 	}
 
