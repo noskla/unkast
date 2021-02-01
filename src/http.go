@@ -46,11 +46,14 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ch := ActiveChannels[requestedChannel]
+	ActiveChannels[requestedChannel].status.listeners++
 	w.Header().Add("Content-Type", ch.audioFormat)
 	w.Header().Add("Cache-Control", "no-cache")
 	w.Header().Add("Pragma", "no-cache")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
+	log.Println("Listener started listening to "+requestedChannel+
+		". Currently listening:", ActiveChannels[requestedChannel].status.listeners)
 
 	var lastChunk = make([]byte, 4096)
 	var currentChunk = make([]byte, 4096)
@@ -58,6 +61,7 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 		currentChunk = ch.mainBuffer[0:4096]
 		if _, err := w.Write(currentChunk); err != nil ||
 			bytes.Compare(lastChunk, currentChunk) == 0 {
+			ActiveChannels[requestedChannel].status.listeners--
 			break
 		}
 		lastChunk = currentChunk
