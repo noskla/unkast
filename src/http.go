@@ -57,6 +57,11 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 
 	var lastChunk = make([]byte, 4096)
 	var currentChunk = make([]byte, 4096)
+	var chunkLimitInSecond uint8 = 6
+	var chunksPassed uint8 = 0
+	var previousSyncTime uint64 = uint64(time.Now().UnixNano())
+	var syncSkew int64
+
 	for {
 		currentChunk = ch.mainBuffer[0:4096]
 		if _, err := w.Write(currentChunk); err != nil ||
@@ -65,7 +70,15 @@ func HTTPListenRoute(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		lastChunk = currentChunk
-		time.Sleep(ch.bitrateInterval)
+
+		if chunksPassed == chunkLimitInSecond {
+			chunksPassed = 0
+			timeNow := uint64(time.Now().UnixNano())
+			syncSkew = int64(timeNow - (previousSyncTime + uint64(time.Second)))
+			previousSyncTime = timeNow
+		}
+		time.Sleep(ch.bitrateInterval - time.Duration(syncSkew))
+		syncSkew = 0
 	}
 
 }
