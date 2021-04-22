@@ -3,6 +3,7 @@ package main
 import (
 	"math/rand"
 	"time"
+	"os"
 )
 
 func main() {
@@ -10,7 +11,12 @@ func main() {
 
 	channelID, _ := CreateAudioChannel(192, false, AudioFormats["MPEG"], ChannelTypes["FilesOnly"])
 	//go RoutineReadAudio("/home/alis/Music/Beat Thee.mp3", channelID.String())
-	go PlayDirectory("/home/alis/Music/", channelID.String(), true, true)
+	homedir, _ := os.UserHomeDir()
+	var playdir = homedir + "/Music/"
+	if len(os.Args) > 1 {
+		playdir = os.Args[1]
+	}
+	go PlayDirectory(playdir, channelID.String(), true, true)
 
 	channelID, _ = CreateAudioChannel(192, false, AudioFormats["MPEG"], ChannelTypes["StreamOnly"])
 
